@@ -1,30 +1,19 @@
-import { useState, useEffect } from "react";
-import Login from "./components/Login.jsx";
-
-const API_URL = "http://localhost:3000";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Signup from "./components/Auth/Signup.jsx";
+import Login from "./components/Auth/Login.jsx";
+import Home from "./pages/Home.jsx";
 
 function App() {
-  const [users, setUsers] = useState([]);
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    if (!token) return;
-    fetch(`${API_URL}/v1/users`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(data => setUsers(data))
-      .catch(err => console.error(err));
-  }, [token]);
-
-  if (!token) return <Login setToken={setToken} />;
-
   return (
-    <div>
-      <h1>Users</h1>
-      {users.length === 0 ? <p>No users found</p> :
-        <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Signup />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 

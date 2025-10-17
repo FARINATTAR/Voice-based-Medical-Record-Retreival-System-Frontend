@@ -1,26 +1,13 @@
-const API_URL = "http://localhost:3000";
+import axios from "axios";
 
-export const signup = async (name, email, password) => {
-  const res = await fetch(`${API_URL}/auth/signup`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, password }),
-  });
-  return res.json();
-};
+const API = axios.create({
+  baseURL: "http://localhost:3000/api/v1", // backend base URL
+});
 
-export const login = async (email, password) => {
-  const res = await fetch(`${API_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  return res.json();
-};
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  if (token) req.headers.Authorization = `Bearer ${token}`;
+  return req;
+});
 
-export const getUsers = async (token) => {
-  const res = await fetch(`${API_URL}/users`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  return res.json();
-};
+export default API;
