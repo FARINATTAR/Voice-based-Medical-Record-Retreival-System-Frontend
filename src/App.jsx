@@ -22,9 +22,9 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
-import HospitalDashboard from './components/HospitalDashboard';
-import DoctorDashboard from './components/DoctorDashboard';
-import PatientDashboard from './components/PatientDashboard';
+import HospitalDashboard from './components/dashboard/HospitalDashboard';
+import DoctorDashboard from './components/dashboard/DoctorDashboard';
+import PatientDashboard from './components/dashboard/PatientDashboard';
 
 function App() {
   return (
