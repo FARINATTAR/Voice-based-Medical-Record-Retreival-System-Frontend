@@ -70,6 +70,7 @@ import Signup from './components/auth/Signup';
 import DoctorDashboard from './components/dashboard/DoctorDashboard';
 import HospitalDashboard from './components/dashboard/HospitalDashboard';
 import PatientDashboard from './components/dashboard/PatientDashboard';
+import RecordModal from './components/RecordModal'; 
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token'); // check login token
@@ -97,7 +98,7 @@ export default function App() {
         {/* Add hospital/patient dashboards here in future */}
         <Route path="/hospital" element={<PrivateRoute><HospitalDashboard /></PrivateRoute>} />
         <Route path="/patient" element={<PrivateRoute><PatientDashboard /></PrivateRoute>} />
-
+        <Route path="/rec" element={<RecordModal />} />
         {/* Redirect unknown paths */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
