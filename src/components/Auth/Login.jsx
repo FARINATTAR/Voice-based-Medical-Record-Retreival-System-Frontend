@@ -1,65 +1,4 @@
-// import React, { useState } from "react";
-// import API from "../../api/api";
-// import { useNavigate } from "react-router-dom";
 
-// const Login = () => {
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const navigate = useNavigate();
-
-//   // Login handler
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const res = await API.post('/auth/login', { email, password });
-
-//       // Save token in localStorage
-//       localStorage.setItem('token', res.data.token);
-
-//       // Save user role if needed
-//       const userRole = res.data.user.role;
-//       localStorage.setItem('role', userRole);
-
-//       // Redirect based on role
-//       if (userRole === 'doctor') navigate('/doctor');
-//       else if (userRole === 'patient') navigate('/patient');
-//       else if (userRole === 'hospital') navigate('/hospital');
-
-//     } catch (err) {
-//       console.error('Login error:', err);
-//       alert(err.response?.data?.message || 'Login failed');
-//     }
-//   };
-
-//   return (
-//     <div style={{ maxWidth: "400px", margin: "50px auto" }}>
-//       <h2>Login</h2>
-//       <form onSubmit={handleLogin}>
-//         <div>
-//           <input
-//             type="email"
-//             placeholder="Email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             required
-//           />
-//         </div>
-//         <div>
-//           <input
-//             type="password"
-//             placeholder="Password"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//             required
-//           />
-//         </div>
-//         <button type="submit">Login</button>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default Login;
 import React, { useState } from "react";
 import API from "../../api/api";
 import { useNavigate } from "react-router-dom";
@@ -71,32 +10,30 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  // Login handler
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const res = await API.post('/auth/login', { email, password });
+const handleLogin = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  try {
+    const res = await API.post('/auth/login', { email, password });
 
-      // Save token in localStorage
-      localStorage.setItem('token', res.data.token);
+    const userRole = res.data.user.role; // ✅ Add this line
 
-      // Save user role if needed
-      const userRole = res.data.user.role;
-      localStorage.setItem('role', userRole);
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('role', userRole);
+    localStorage.setItem('user', JSON.stringify(res.data.user));
 
-      // Redirect based on role
-      if (userRole === 'doctor') navigate('/doctor');
-      else if (userRole === 'patient') navigate('/patient');
-      else if (userRole === 'hospital') navigate('/hospital');
+    if (userRole === 'doctor') navigate('/dashboard');
+    else if (userRole === 'patient') navigate('/patient');
+    else if (userRole === 'hospital') navigate('/hospital');
+    else navigate('/login'); // fallback
+  } catch (err) {
+    console.error('Login error:', err);
+    alert(err.response?.data?.message || 'Login failed');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-    } catch (err) {
-      console.error('Login error:', err);
-      alert(err.response?.data?.message || 'Login failed');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 px-4 py-12">
