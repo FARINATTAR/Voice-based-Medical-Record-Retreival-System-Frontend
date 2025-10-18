@@ -68,8 +68,8 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import DoctorDashboard from './components/dashboard/DoctorDashboard';
-// import HospitalDashboard from './pages/HospitalDashboard';
-// import PatientDashboard from './pages/PatientDashboard';
+import HospitalDashboard from './components/dashboard/HospitalDashboard';
+import PatientDashboard from './components/dashboard/PatientDashboard';
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem('token'); // check login token
@@ -95,8 +95,8 @@ export default function App() {
         />
 
         {/* Add hospital/patient dashboards here in future */}
-        {/* <Route path="/hospital" element={<PrivateRoute><HospitalDashboard /></PrivateRoute>} /> */}
-        {/* <Route path="/patient" element={<PrivateRoute><PatientDashboard /></PrivateRoute>} /> */}
+        <Route path="/hospital" element={<PrivateRoute><HospitalDashboard /></PrivateRoute>} />
+        <Route path="/patient" element={<PrivateRoute><PatientDashboard /></PrivateRoute>} />
 
         {/* Redirect unknown paths */}
         <Route path="*" element={<Navigate to="/login" />} />
